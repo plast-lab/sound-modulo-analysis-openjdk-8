@@ -1,0 +1,10 @@
+--- a/make/build-nasgen.xml Fri Apr 26 17:35:40 2013 +0200
++++ b/make/build-nasgen.xml Fri Apr 26 22:13:10 2013 +0530
+@@ -37,6 +37,7 @@
+                 <pathelement location="${basedir}/buildtools/nasgen/dist/nasgen.jar"/>
+                                  <pathelement path="${basedir}/build/classes"/>
+                                               </classpath>
+                                               + <jvmarg value="-Djava.ext.dirs="/>
+                                                            <arg value="${basedir}/build/classes"/>
+                                                                         <arg value="jdk.nashorn.internal.objects"/>
+                                                                                      <arg value="${basedir}/build/classes"/>

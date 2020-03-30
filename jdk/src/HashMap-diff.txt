@@ -1,0 +1,220 @@
+diff -r 687fd7c7986d src/share/classes/java/util/HashMap.java
+--- a/src/share/classes/java/util/HashMap.java	Tue Mar 04 11:51:53 2014 -0800
++++ b/src/share/classes/java/util/HashMap.java	Sat Nov 16 16:07:38 2019 +0000
+@@ -414,6 +414,9 @@
+      */
+     transient int modCount;
+ 
++    transient K key;
++    transient V value;
++
+     /**
+      * The next size value at which to resize (capacity * load factor).
+      *
+@@ -511,6 +514,8 @@
+             for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+                 K key = e.getKey();
+                 V value = e.getValue();
++                this.key = key;
++                this.value = value;
+                 putVal(hash(key), key, value, false, evict);
+             }
+         }
+@@ -552,8 +557,12 @@
+      * @see #put(Object, Object)
+      */
+     public V get(Object key) {
+-        Node<K,V> e;
+-        return (e = getNode(hash(key), key)) == null ? null : e.value;
++        if (this.key == key) {
++            return this.value;
++        }
++        return null;
++        // Node<K,V> e;
++        // return (e = getNode(hash(key), key)) == null ? null : e.value;
+     }
+ 
+     /**
+@@ -592,7 +601,8 @@
+      * key.
+      */
+     public boolean containsKey(Object key) {
+-        return getNode(hash(key), key) != null;
++        return false;
++        //return getNode(hash(key), key) != null;
+     }
+ 
+     /**
+@@ -608,7 +618,20 @@
+      *         previously associated <tt>null</tt> with <tt>key</tt>.)
+      */
+     public V put(K key, V value) {
+-        return putVal(hash(key), key, value, false, true);
++        Node node = new Node(0, key, value, null);
++        TreeNode treeNode = new TreeNode(0, key, value, null);
++        keySet.add(key);
++        entrySet.add(node);
++        entrySet.add(treeNode);
++        table[0] = node;
++        table[1] = treeNode;
++        node.next = node;
++        treeNode.next = treeNode;
++        
++        this.key = key;
++        this.value = value;
++        return this.value;
++        //return putVal(hash(key), key, value, false, true);
+     }
+ 
+     /**
+@@ -794,9 +817,12 @@
+      *         previously associated <tt>null</tt> with <tt>key</tt>.)
+      */
+     public V remove(Object key) {
+-        Node<K,V> e;
+-        return (e = removeNode(hash(key), key, null, false, true)) == null ?
+-            null : e.value;
++        if (this.value == null)
++            return null;
++        return this.value;
++            //Node<K,V> e;
++            //return (e = removeNode(hash(key), key, null, false, true)) == null ?
++            //null : e.value;
+     }
+ 
+     /**
+@@ -873,16 +899,16 @@
+      *         specified value
+      */
+     public boolean containsValue(Object value) {
+-        Node<K,V>[] tab; V v;
+-        if ((tab = table) != null && size > 0) {
+-            for (int i = 0; i < tab.length; ++i) {
+-                for (Node<K,V> e = tab[i]; e != null; e = e.next) {
+-                    if ((v = e.value) == value ||
+-                        (value != null && value.equals(v)))
+-                        return true;
+-                }
+-            }
+-        }
++        // Node<K,V>[] tab; V v;
++        // if ((tab = table) != null && size > 0) {
++        //     for (int i = 0; i < tab.length; ++i) {
++        //         for (Node<K,V> e = tab[i]; e != null; e = e.next) {
++        //             if ((v = e.value) == value ||
++        //                 (value != null && value.equals(v)))
++        //                 return true;
++        //         }
++        //     }
++        // }
+         return false;
+     }
+ 
+@@ -1044,41 +1070,52 @@
+ 
+     @Override
+     public V getOrDefault(Object key, V defaultValue) {
+-        Node<K,V> e;
+-        return (e = getNode(hash(key), key)) == null ? defaultValue : e.value;
++        if (this.value != null)
++            return this.value;
++        return defaultValue;
++        //Node<K,V> e;
++        //return (e = getNode(hash(key), key)) == null ? defaultValue : e.value;
+     }
+ 
+     @Override
+     public V putIfAbsent(K key, V value) {
+-        return putVal(hash(key), key, value, true, true);
++        this.key = key;
++        this.value = value;
++        return this.value;
++        //return putVal(hash(key), key, value, true, true);
+     }
+ 
+     @Override
+     public boolean remove(Object key, Object value) {
+-        return removeNode(hash(key), key, value, true, true) != null;
++        return false;
++        //return removeNode(hash(key), key, value, true, true) != null;
+     }
+ 
+     @Override
+     public boolean replace(K key, V oldValue, V newValue) {
+         Node<K,V> e; V v;
+-        if ((e = getNode(hash(key), key)) != null &&
+-            ((v = e.value) == oldValue || (v != null && v.equals(oldValue)))) {
+-            e.value = newValue;
+-            afterNodeAccess(e);
+-            return true;
+-        }
++        this.key = key;
++        this.value = value;
++        // if ((e = getNode(hash(key), key)) != null &&
++        //     ((v = e.value) == oldValue || (v != null && v.equals(oldValue)))) {
++        //     e.value = newValue;
++        //     afterNodeAccess(e);
++        //     return true;
++        // }
+         return false;
+     }
+ 
+     @Override
+     public V replace(K key, V value) {
+         Node<K,V> e;
+-        if ((e = getNode(hash(key), key)) != null) {
+-            V oldValue = e.value;
+-            e.value = value;
+-            afterNodeAccess(e);
+-            return oldValue;
+-        }
++        this.key = key;
++        this.value = value;
++        // if ((e = getNode(hash(key), key)) != null) {
++        //     V oldValue = e.value;
++        //     e.value = value;
++        //     afterNodeAccess(e);
++        //     return oldValue;
++        // }
+         return null;
+     }
+ 
+@@ -1394,6 +1431,8 @@
+                     K key = (K) s.readObject();
+                 @SuppressWarnings("unchecked")
+                     V value = (V) s.readObject();
++                this.key = key;
++                this.value = value;
+                 putVal(hash(key), key, value, false, false);
+             }
+         }
+@@ -1731,21 +1770,29 @@
+ 
+     // Create a regular (non-tree) node
+     Node<K,V> newNode(int hash, K key, V value, Node<K,V> next) {
++        this.key = key;
++        this.value = value;
+         return new Node<>(hash, key, value, next);
+     }
+ 
+     // For conversion from TreeNodes to plain nodes
+     Node<K,V> replacementNode(Node<K,V> p, Node<K,V> next) {
++        this.key = key;
++        this.value = value;
+         return new Node<>(p.hash, p.key, p.value, next);
+     }
+ 
+     // Create a tree bin node
+     TreeNode<K,V> newTreeNode(int hash, K key, V value, Node<K,V> next) {
++        this.key = key;
++        this.value = value;
+         return new TreeNode<>(hash, key, value, next);
+     }
+ 
+     // For treeifyBin
+     TreeNode<K,V> replacementTreeNode(Node<K,V> p, Node<K,V> next) {
++        this.key = key;
++        this.value = value;
+         return new TreeNode<>(p.hash, p.key, p.value, next);
+     }
+ 
