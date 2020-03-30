@@ -3,9 +3,8 @@ DISCLAIMER:
   `java.util.HashMap`, `java.util.LinkedHashMap`, and `java.util.concurrent.ConcurrentHashMap` the library is not useable for
   the execution of Java programs. Instead, it aims to be used as a replacement of the OpenJDK 8 runtime for the sound analysis
   of Java programs. The modifications made to `HashMap`, `LinkedHashMap`, and `ConcurrentHashMap` aim to provide higher precision
-  and scalability, as described in the PLDI 2020 paper "Static Analysis of Java Enterprise Applications:Frameworks and Caches—The Elephants in the Room".
-  
-  More details on the paper can be found at: https://pldi20.sigplan.org/details/pldi-2020-papers/66/Static-Analysis-of-Enterprise-Applications-Haven-t-We-Solved-This-Problem-Yet-
+  and scalability, as described in the PLDI 2020 paper [Static Analysis of Java Enterprise Applications:Frameworks and Caches—The Elephants in the Room](https://pldi20.sigplan.org/details/pldi-2020-papers/66/Static-Analysis-of-Enterprise-Applications-Haven-t-We-Solved-This-Problem-Yet-).
+
 
 README:
   This file should be located at the top of the OpenJDK Mercurial root
