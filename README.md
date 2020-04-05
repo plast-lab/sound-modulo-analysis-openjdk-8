@@ -1,6 +1,6 @@
 DISCLAIMER:
   This version of OpenJDK does not aim to be used as a replacement of OpenJDK 8. Due to modifications to `java.util` classes---`java.util.HashMap`, `java.util.LinkedHashMap`, and `java.util.concurrent.ConcurrentHashMap`---the library is not usable for the execution of Java programs. Instead, it aims to be used as a replacement of the OpenJDK 8 runtime for the sound static analysis of Java programs. The modifications made aim to provide higher precision
-  and scalability, as described in the PLDI 2020 paper [Static Analysis of Java Enterprise Applications: Frameworks and Caches—The Elephants in the Room](https://pldi20.sigplan.org/details/pldi-2020-papers/66/Static-Analysis-of-Enterprise-Applications-Haven-t-We-Solved-This-Problem-Yet-).
+  and scalability, as described in the PLDI 2020 paper [Static Analysis of Java Enterprise Applications: Frameworks and Caches, The Elephants in the Room](https://pldi20.sigplan.org/details/pldi-2020-papers/66/Static-Analysis-of-Enterprise-Applications-Haven-t-We-Solved-This-Problem-Yet-).
 
 
 README:
